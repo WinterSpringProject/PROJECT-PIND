@@ -40,3 +40,5 @@ out/
 
 ### Spring Security ###
 application-oauth.properties
+application-credentials.yml
+

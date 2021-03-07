@@ -8,16 +8,23 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @Log4j2
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
+    private final EmailService emailService;
 
     @Override
     public Long register(MemberDTO memberDTO) {
         Member member = dtoToEntity(memberDTO);
+        member.changeCertifiedKey(makeCertifiedKey());
+        Optional<Member> result = memberRepository.findByEmail(member.getEmail());
+        if (result.isPresent()) {
+            return null;
+        }
         memberRepository.save(member);
         return member.getId();
     }
@@ -44,5 +51,31 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public void remove(Long mno) {
         memberRepository.deleteById(mno);
+    }
+
+    @Override
+    public Optional<Member> findByCertifiedKey(Member member) {
+        return memberRepository.findByCertifiedKey(member.getEmail(), member.getCertifiedKey());
+    }
+
+    @Override
+    public void modifyCertifiedKey(Member member) {
+        memberRepository.updateCertifiedKey(member.getEmail());
+    }
+
+    private String makeCertifiedKey() {
+        Random random = new Random();
+        StringBuffer sb = new StringBuffer();
+        int num = 0;
+
+        do {
+            num = random.nextInt(75) + 48;
+            if ((num >= 48 && num <= 57) || (num >= 65 && num <= 90) || (num >= 97 && num <= 122)) {
+                sb.append((char) num);
+            } else {
+                continue;
+            }
+        } while (sb.length() < 10);
+        return sb.toString();
     }
 }
