@@ -35,6 +35,9 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private FromSocial fromSocial;
 
+    @Column
+    private String certifiedKey;
+
     public void changeEmail(String email){
         this.email = email;
     }
@@ -45,6 +48,10 @@ public class Member extends BaseEntity {
 
     public void changeName(String name){
         this.name = name;
+    }
+
+    public void changeCertifiedKey(String certifiedKey) {
+        this.certifiedKey = certifiedKey;
     }
 
 }

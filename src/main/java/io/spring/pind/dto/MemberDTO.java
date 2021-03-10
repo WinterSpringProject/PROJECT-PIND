@@ -16,12 +16,15 @@ import java.time.LocalDateTime;
 public class MemberDTO {
     private Long id;
 
-    // 추후 지역 table 추가시
     // private Long region_id;
 
     private String email;
 
     private String name;
+
+    private String password;
+
+    private String certifiedKey;
 
     private LocalDateTime regDate;
 

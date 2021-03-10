@@ -3,6 +3,8 @@ package io.spring.pind.service;
 import io.spring.pind.dto.MemberDTO;
 import io.spring.pind.entity.Member;
 
+import java.util.Optional;
+
 public interface MemberService {
     Long register(MemberDTO memberDTO);
 
@@ -11,6 +13,10 @@ public interface MemberService {
     void modify(MemberDTO memberDTO);
 
     void remove(Long mno);
+
+    Optional<Member> findByCertifiedKey(Member member);
+
+    void modifyCertifiedKey(Member member);
 
     default MemberDTO entitiesToDTO(Member member){
         MemberDTO memberDTO = MemberDTO.builder()
@@ -29,6 +35,7 @@ public interface MemberService {
                 .id(memberDTO.getId())
                 .email(memberDTO.getEmail())
                 .name(memberDTO.getName())
+                .password(memberDTO.getPassword())
                 .build();
 
         return member;
