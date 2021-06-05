@@ -30,4 +30,8 @@ public class Participate {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ParticipateRole role;
+
+    public void changeRole(ParticipateRole role){
+        this.role = role;
+    }
 }
